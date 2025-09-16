@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset('assets/logo.svg', width: 150),
+            Image.asset('assets/logo.png', width: 150),
             const SizedBox(height: 24),
             Container(
               width: MediaQuery.of(context).size.width * 0.9,

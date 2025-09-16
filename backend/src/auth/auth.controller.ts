@@ -99,7 +99,7 @@ export class AuthController {
     const result = await this.authService.oauthLogin(req.user);
 
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
-    res.redirect(`${frontendUrl}/auth/callback?token=${result.access_token}`);
+    res.redirect(`${frontendUrl}/#/auth/callback?token=${result.access_token}`);
   }
 
   @ApiOperation({ summary: 'Iniciar autenticação Microsoft OAuth' })
@@ -122,6 +122,6 @@ export class AuthController {
     const result = await this.authService.oauthLogin(req.user);
 
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
-    res.redirect(`${frontendUrl}/auth/callback?token=${result.access_token}`);
+    res.redirect(`${frontendUrl}/#/auth/callback?token=${result.access_token}`);
   }
 }

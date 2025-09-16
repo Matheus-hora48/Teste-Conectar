@@ -127,7 +127,6 @@ class _ClientFormScreenState extends State<ClientFormScreen>
           updatedAt: DateTime.now(),
         );
 
-
         bool success = false;
         if (_isEditMode) {
           success = await _controller.updateClient(client);

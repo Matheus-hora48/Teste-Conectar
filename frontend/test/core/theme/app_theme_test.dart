@@ -39,10 +39,8 @@ void main() {
       test('deve ter configurações padrão do Material Design', () {
         final theme = AppTheme.lightTheme;
 
-        // Verifica se usa Material 3
         expect(theme.useMaterial3, isTrue);
 
-        // Verifica se tem as propriedades básicas do Material Design
         expect(theme.primaryColor, isNotNull);
         expect(theme.colorScheme, isNotNull);
       });
@@ -51,16 +49,14 @@ void main() {
         final theme = AppTheme.lightTheme;
         final primaryColor = theme.primaryColor;
 
-        // Verifica se a cor é válida
         expect(primaryColor, isA<Color>());
-        expect(primaryColor.value, isA<int>());
-        expect(primaryColor.alpha, greaterThan(0));
+        expect(primaryColor.toARGB32(), isA<int>());
+        expect((0xff000000 & primaryColor.toARGB32()) >> 24, greaterThan(0));
       });
 
       test('deve usar cores do AppColors', () {
         final theme = AppTheme.lightTheme;
 
-        // Verifica integração com AppColors
         expect(theme.primaryColor, equals(AppColors.primaryColor));
       });
     });
@@ -69,7 +65,6 @@ void main() {
       test('deve ter propriedades essenciais configuradas', () {
         final theme = AppTheme.lightTheme;
 
-        // Propriedades básicas que todo tema deve ter
         expect(theme.brightness, isNotNull);
         expect(theme.colorScheme, isNotNull);
         expect(theme.textTheme, isNotNull);
@@ -81,7 +76,6 @@ void main() {
         final theme = AppTheme.lightTheme;
         final defaultTheme = ThemeData();
 
-        // Verifica se algumas propriedades não customizadas mantém valores padrão
         expect(theme.visualDensity, equals(defaultTheme.visualDensity));
         expect(
           theme.materialTapTargetSize,
@@ -92,7 +86,6 @@ void main() {
       test('deve ter brightness correto para tema claro', () {
         final theme = AppTheme.lightTheme;
 
-        // Para tema claro, brightness deve ser light
         expect(theme.brightness, equals(Brightness.light));
       });
     });
@@ -111,19 +104,17 @@ void main() {
         final theme = AppTheme.lightTheme;
         final colorScheme = theme.colorScheme;
 
-        // Verifica se tem cores de contraste
         expect(colorScheme.onPrimary, isA<Color>());
         expect(colorScheme.surface, isA<Color>());
         expect(colorScheme.onSurface, isA<Color>());
-        expect(colorScheme.background, isA<Color>());
-        expect(colorScheme.onBackground, isA<Color>());
+        expect(colorScheme.onSurface, isA<Color>());
+        expect(colorScheme.onSurface, isA<Color>());
       });
 
       test('deve ter variações de cor apropriadas', () {
         final theme = AppTheme.lightTheme;
         final colorScheme = theme.colorScheme;
 
-        // Verifica variações da cor primária
         expect(colorScheme.primary, isA<Color>());
         expect(colorScheme.primaryContainer, isA<Color>());
         expect(colorScheme.secondary, isA<Color>());
@@ -147,7 +138,6 @@ void main() {
         final theme = AppTheme.lightTheme;
         final textTheme = theme.textTheme;
 
-        // Material 3 deve ter todos os estilos definidos
         expect(textTheme.displayLarge, isNotNull);
         expect(textTheme.displayMedium, isNotNull);
         expect(textTheme.displaySmall, isNotNull);
@@ -222,10 +212,9 @@ void main() {
         final theme = AppTheme.lightTheme;
         final colorScheme = theme.colorScheme;
 
-        // Verifica se cores de texto têm contraste adequado
         expect(colorScheme.onPrimary, isA<Color>());
         expect(colorScheme.onSurface, isA<Color>());
-        expect(colorScheme.onBackground, isA<Color>());
+        expect(colorScheme.onSurface, isA<Color>());
       });
     });
 
@@ -233,10 +222,8 @@ void main() {
       test('deve usar tokens de design do Material 3', () {
         final theme = AppTheme.lightTheme;
 
-        // Material 3 específico
         expect(theme.useMaterial3, isTrue);
 
-        // Verifica se usa color scheme apropriado para M3
         final colorScheme = theme.colorScheme;
         expect(colorScheme.surfaceTint, isA<Color>());
         expect(colorScheme.inverseSurface, isA<Color>());
@@ -246,14 +233,12 @@ void main() {
       test('deve ter elevações apropriadas para Material 3', () {
         final theme = AppTheme.lightTheme;
 
-        // Material 3 usa surface tint ao invés de sombras tradicionais
         expect(theme.colorScheme.surfaceTint, isNotNull);
       });
 
       test('deve usar formas apropriadas para Material 3', () {
         final theme = AppTheme.lightTheme;
 
-        // Verifica se tem configurações de forma
         expect(theme.cardTheme.shape, isA<ShapeBorder?>());
         expect(theme.elevatedButtonTheme.style, isNotNull);
       });
@@ -264,7 +249,6 @@ void main() {
         final theme1 = AppTheme.lightTheme;
         final theme2 = AppTheme.lightTheme;
 
-        // Propriedades principais devem ser iguais
         expect(theme1.primaryColor, equals(theme2.primaryColor));
         expect(theme1.useMaterial3, equals(theme2.useMaterial3));
         expect(theme1.brightness, equals(theme2.brightness));
@@ -273,23 +257,20 @@ void main() {
       test('deve usar a mesma cor primária do AppColors', () {
         final theme = AppTheme.lightTheme;
 
-        // Verifica integração consistente
         expect(theme.primaryColor, equals(AppColors.primaryColor));
       });
 
       test('deve ter configurações válidas', () {
         final theme = AppTheme.lightTheme;
 
-        // Validações básicas
-        expect(theme.primaryColor.alpha, greaterThan(0));
-        expect(theme.colorScheme.primary.alpha, greaterThan(0));
+        expect(theme.primaryColor.toARGB32(), greaterThan(0));
+        expect(theme.colorScheme.primary.toARGB32(), greaterThan(0));
         expect(theme.textTheme.bodyLarge, isNotNull);
       });
     });
 
     group('Performance', () {
       test('deve ser eficiente na criação do tema', () {
-        // Mede tempo de criação (deve ser rápido)
         final stopwatch = Stopwatch()..start();
 
         for (int i = 0; i < 100; i++) {
@@ -298,7 +279,6 @@ void main() {
 
         stopwatch.stop();
 
-        // Deve ser criado rapidamente (menos de 1 segundo para 100 instâncias)
         expect(stopwatch.elapsedMilliseconds, lessThan(1000));
       });
 
@@ -306,18 +286,14 @@ void main() {
         final theme1 = AppTheme.lightTheme;
         final theme2 = AppTheme.lightTheme;
 
-        // Devem ser objetos diferentes (não singleton)
         expect(identical(theme1, theme2), isFalse);
 
-        // Mas com mesmas propriedades
         expect(theme1.primaryColor, equals(theme2.primaryColor));
       });
     });
 
     group('Error Handling', () {
       test('deve funcionar mesmo se AppColors.primaryColor for null', () {
-        // Este teste assume que AppColors.primaryColor nunca é null
-        // Se fosse nullable, seria necessário testar esse caso
         expect(AppColors.primaryColor, isNotNull);
         expect(() => AppTheme.lightTheme, returnsNormally);
       });
@@ -325,7 +301,6 @@ void main() {
       test('deve gerar tema válido em qualquer circunstância', () {
         final theme = AppTheme.lightTheme;
 
-        // Deve sempre retornar um tema válido
         expect(theme, isA<ThemeData>());
         expect(theme.primaryColor, isA<Color>());
         expect(theme.colorScheme, isA<ColorScheme>());
@@ -334,17 +309,14 @@ void main() {
 
     group('Future Extensions', () {
       test('estrutura deve permitir extensão para tema escuro', () {
-        // Verifica se a estrutura da classe permite adicionar darkTheme
         expect(AppTheme, isA<Type>());
 
-        // lightTheme deve ser static para permitir darkTheme static também
         expect(AppTheme.lightTheme, isA<ThemeData>());
       });
 
       test('deve ser compatível com customizações futuras', () {
         final theme = AppTheme.lightTheme;
 
-        // Deve permitir copyWith para customizações
         final customTheme = theme.copyWith(primaryColor: Colors.blue);
 
         expect(customTheme.primaryColor, equals(Colors.blue));

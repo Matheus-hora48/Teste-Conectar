@@ -38,9 +38,7 @@ class CustomDropdownWidget<T> extends StatelessWidget {
           value: value,
           decoration: InputDecoration(
             hintText: hintText,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             filled: true,
             fillColor: enabled ? Colors.white : Colors.grey.shade100,
             enabledBorder: OutlineInputBorder(
@@ -51,10 +49,7 @@ class CustomDropdownWidget<T> extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: Colors.grey.shade400,
-                width: 2,
-              ),
+              borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -66,9 +61,7 @@ class CustomDropdownWidget<T> extends StatelessWidget {
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: Colors.grey.withValues(alpha: 0.3),
-              ),
+              borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.3)),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -99,21 +92,14 @@ class DropdownOption<T> {
   final String label;
   final Widget? icon;
 
-  const DropdownOption({
-    required this.value,
-    required this.label,
-    this.icon,
-  });
+  const DropdownOption({required this.value, required this.label, this.icon});
 
   DropdownMenuItem<T> toDropdownMenuItem() {
     return DropdownMenuItem<T>(
       value: value,
       child: Row(
         children: [
-          if (icon != null) ...[
-            icon!,
-            const SizedBox(width: 8),
-          ],
+          if (icon != null) ...[icon!, const SizedBox(width: 8)],
           Text(label),
         ],
       ),
@@ -121,7 +107,6 @@ class DropdownOption<T> {
   }
 }
 
-// Extensão para facilitar a criação de listas de itens
 extension DropdownOptionsExtension<T> on List<DropdownOption<T>> {
   List<DropdownMenuItem<T>> toDropdownMenuItems() {
     return map((option) => option.toDropdownMenuItem()).toList();

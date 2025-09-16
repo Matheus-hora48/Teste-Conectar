@@ -40,7 +40,7 @@ void main() {
       expect(client.storeFrontName, 'Loja ABC');
       expect(client.cnpj, '11.222.333/0001-81');
       expect(client.companyName, 'ABC Comércio LTDA');
-      expect(client.status, ClientStatus.ativo); // valor padrão
+      expect(client.status, ClientStatus.ativo);
     });
 
     test('deve criar Client a partir de JSON válido', () {

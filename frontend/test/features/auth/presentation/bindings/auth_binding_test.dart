@@ -27,7 +27,6 @@ void main() {
       binding = AuthBinding();
       mockApiService = MockApiService();
 
-      // Pre-register ApiService dependency
       Get.put<ApiService>(mockApiService);
     });
 
@@ -37,19 +36,15 @@ void main() {
 
     group('Dependencies Registration', () {
       test('deve registrar AuthRepository corretamente', () {
-        // Act
         binding.dependencies();
 
-        // Assert
         expect(Get.isRegistered<AuthRepository>(), isTrue);
         expect(Get.find<AuthRepository>(), isNotNull);
       });
 
       test('deve registrar todos os UseCases corretamente', () {
-        // Act
         binding.dependencies();
 
-        // Assert
         expect(Get.isRegistered<LoginUseCase>(), isTrue);
         expect(Get.isRegistered<RegisterUseCase>(), isTrue);
         expect(Get.isRegistered<LogoutUseCase>(), isTrue);
@@ -60,10 +55,8 @@ void main() {
       });
 
       test('deve registrar AuthController com todas as dependências', () {
-        // Act
         binding.dependencies();
 
-        // Assert
         expect(Get.isRegistered<AuthController>(), isTrue);
 
         final controller = Get.find<AuthController>();
@@ -74,14 +67,11 @@ void main() {
       });
 
       test('deve usar lazy loading para todas as dependências', () {
-        // Act
         binding.dependencies();
 
-        // Assert - verificar que as dependências não foram instanciadas ainda
         expect(Get.isRegistered<AuthRepository>(), isTrue);
         expect(Get.isRegistered<AuthController>(), isTrue);
 
-        // Quando realmente usar as dependências, elas devem ser criadas
         final controller = Get.find<AuthController>();
         expect(controller, isNotNull);
       });
@@ -89,30 +79,24 @@ void main() {
 
     group('Dependency Resolution', () {
       test('deve resolver corretamente a cadeia de dependências', () {
-        // Act
         binding.dependencies();
 
-        // Assert - testar se consegue instanciar o controller com todas as deps
         expect(() => Get.find<AuthController>(), returnsNormally);
         expect(() => Get.find<LoginUseCase>(), returnsNormally);
         expect(() => Get.find<AuthRepository>(), returnsNormally);
       });
 
       test('deve reutilizar a mesma instância do repository', () {
-        // Act
         binding.dependencies();
 
-        // Assert
         final repo1 = Get.find<AuthRepository>();
         final repo2 = Get.find<AuthRepository>();
         expect(repo1, same(repo2));
       });
 
       test('deve reutilizar a mesma instância do controller', () {
-        // Act
         binding.dependencies();
 
-        // Assert
         final controller1 = Get.find<AuthController>();
         final controller2 = Get.find<AuthController>();
         expect(controller1, same(controller2));
@@ -121,24 +105,20 @@ void main() {
 
     group('Integration Tests', () {
       test('deve permitir múltiplos bindings sem conflitos', () {
-        // Act & Assert
         expect(() {
           binding.dependencies();
-          binding.dependencies(); // Segunda chamada
+          binding.dependencies();
         }, returnsNormally);
       });
 
       test('deve manter estado consistente após reset', () {
-        // Arrange
         binding.dependencies();
         final originalController = Get.find<AuthController>();
 
-        // Act
         Get.reset();
         Get.put<ApiService>(mockApiService);
         binding.dependencies();
 
-        // Assert
         final newController = Get.find<AuthController>();
         expect(newController, isNot(same(originalController)));
         expect(newController.isLoading, isFalse);

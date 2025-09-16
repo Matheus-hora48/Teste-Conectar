@@ -3,6 +3,7 @@ import 'package:frontend/core/constants/app_colors.dart';
 import 'package:frontend/core/utils/validators.dart';
 import 'package:frontend/core/widgets/custom_text_field.dart';
 import 'package:get/get.dart';
+import 'package:svg_flutter/svg.dart';
 import '../controllers/auth_controller.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -38,6 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<void> _handleGoogleLogin() async {
+    await _authController.loginWithGoogle();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/logo.png', width: 150),
+            SvgPicture.asset('assets/logo.svg', width: 150),
             const SizedBox(height: 24),
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
@@ -115,6 +120,51 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Entrar',
                                 style: TextStyle(fontSize: 16),
                               ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    const Row(
+                      children: [
+                        Expanded(child: Divider()),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            'ou',
+                            style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        Expanded(child: Divider()),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    Obx(
+                      () => OutlinedButton.icon(
+                        onPressed: _authController.isLoading
+                            ? null
+                            : _handleGoogleLogin,
+                        icon: const Icon(
+                          Icons.login,
+                          size: 20,
+                          color: AppColors.primaryColor,
+                        ),
+                        label: const Text(
+                          'Entrar com Google',
+                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          side: const BorderSide(color: AppColors.primaryColor),
+                        ),
                       ),
                     ),
                   ],

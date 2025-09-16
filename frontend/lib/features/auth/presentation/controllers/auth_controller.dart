@@ -19,7 +19,6 @@ class AuthController extends GetxController {
   final UpdatePasswordUseCase _updatePasswordUseCase;
   final GoogleLoginUseCase _googleLoginUseCase;
 
-  
   final Rx<User?> _currentUser = Rx<User?>(null);
   final RxBool _isLoading = false.obs;
   final RxBool _isLoggedIn = false.obs;
@@ -44,7 +43,6 @@ class AuthController extends GetxController {
        _updatePasswordUseCase = updatePasswordUseCase,
        _googleLoginUseCase = googleLoginUseCase;
 
-  
   User? get currentUser => _currentUser.value;
   bool get isLoading => _isLoading.value;
   bool get isLoggedIn => _isLoggedIn.value;

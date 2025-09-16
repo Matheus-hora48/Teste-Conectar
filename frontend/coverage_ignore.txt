@@ -1,0 +1,18 @@
+# Ignorar arquivos gerados automaticamente
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# Ignorar arquivos de configuração
+**/main.dart
+**/app.dart
+
+# Ignorar telas que apenas combinam widgets (com pouca lógica)
+**/splash_screen.dart
+
+# Ignorar bindings (apenas configuração de dependências)
+**/bindings/
+
+# Ignorar constantes simples
+**/constants/
+**/themes/

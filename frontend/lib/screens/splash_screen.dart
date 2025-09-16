@@ -50,6 +50,10 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _checkAuthStatus() async {
     final authController = Get.find<AuthController>();
 
+    if (Get.currentRoute.contains('/auth/callback')) {
+      return;
+    }
+
     await Future.delayed(const Duration(milliseconds: 2000));
 
     await authController.checkAuthStatus();

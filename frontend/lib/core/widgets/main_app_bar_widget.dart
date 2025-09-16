@@ -67,10 +67,6 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             } else {
               return Row(
                 children: [
-                  _buildTabButton('Clientes', currentTab == 'clientes', () {
-                    Get.toNamed('/clients');
-                  }),
-                  const SizedBox(width: 16),
                   _buildTabButton('Perfil', currentTab == 'perfil', () {
                     Get.toNamed('/profile');
                   }),

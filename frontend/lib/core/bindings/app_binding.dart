@@ -1,3 +1,4 @@
+import 'package:frontend/features/auth/domain/usecases/google_login_usecase.dart';
 import 'package:get/get.dart';
 import '../../features/auth/data/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
@@ -48,6 +49,10 @@ class AppBinding extends Bindings {
       () => UpdatePasswordUseCase(Get.find<AuthRepository>()),
     );
 
+    Get.lazyPut<GoogleLoginUseCase>(
+      () => GoogleLoginUseCase(Get.find<AuthRepository>()),
+    );
+
     Get.lazyPut<AuthController>(
       () => AuthController(
         loginUseCase: Get.find<LoginUseCase>(),
@@ -57,6 +62,7 @@ class AppBinding extends Bindings {
         checkAuthStatusUseCase: Get.find<CheckAuthStatusUseCase>(),
         updateProfileUseCase: Get.find<UpdateProfileUseCase>(),
         updatePasswordUseCase: Get.find<UpdatePasswordUseCase>(),
+        googleLoginUseCase: Get.find<GoogleLoginUseCase>(),
       ),
     );
   }

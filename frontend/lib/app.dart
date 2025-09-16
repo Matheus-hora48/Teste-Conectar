@@ -10,12 +10,15 @@ import 'package:frontend/features/users/presentation/bindings/users_binding.dart
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:get/get.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/auth/presentation/screens/auth_callback_screen.dart';
 import 'features/auth/presentation/bindings/auth_binding.dart';
 import 'core/bindings/app_binding.dart';
 import 'features/clients/presentation/screens/client_form_screen.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String? initialRoute;
+
+  const MyApp({super.key, this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +27,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       initialBinding: AppBinding(),
+      unknownRoute: GetPage(
+        name: '/notfound',
+        page: () => const SplashScreen(),
+      ),
       getPages: [
+        GetPage(
+          name: '/auth/callback',
+          page: () => const AuthCallbackScreen(),
+          binding: AuthBinding(),
+        ),
         GetPage(
           name: '/login',
           page: () => const LoginScreen(),
           binding: AuthBinding(),
         ),
-        GetPage(
-          name: '/',
-          page: () => const SplashScreen(),
-        ),
+        GetPage(name: '/', page: () => const SplashScreen()),
         GetPage(
           name: '/profile',
           page: () => const UserProfileScreen(),
@@ -73,7 +82,7 @@ class MyApp extends StatelessWidget {
           binding: UsersBinding(),
         ),
       ],
-      initialRoute: '/',
+      initialRoute: initialRoute ?? '/',
     );
   }
 }

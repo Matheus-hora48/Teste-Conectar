@@ -7,7 +7,6 @@ import 'package:frontend/features/clients/domain/usecases/create_client_usecase.
 import 'package:frontend/features/clients/domain/usecases/update_client_usecase.dart';
 import 'package:frontend/features/clients/presentation/controllers/clients_controller.dart';
 
-// Mock classes
 class MockGetClientsUseCase extends Mock implements GetClientsUseCase {}
 
 class MockGetClientByIdUseCase extends Mock implements GetClientByIdUseCase {}
@@ -23,7 +22,6 @@ void main() {
   late MockCreateClientUseCase mockCreateClientUseCase;
   late MockUpdateClientUseCase mockUpdateClientUseCase;
 
-  // Test data
   final testClients = [
     const Client(
       id: 1,
@@ -95,7 +93,6 @@ void main() {
   group('ClientsController Tests', () {
     group('loadClients', () {
       test('deve carregar clientes com sucesso', () async {
-        // Arrange
         when(
           () => mockGetClientsUseCase.execute(
             name: any(named: 'name'),
@@ -105,10 +102,8 @@ void main() {
           ),
         ).thenAnswer((_) async => testClients);
 
-        // Act
         await controller.loadClients();
 
-        // Assert
         expect(controller.clients, equals(testClients));
         expect(controller.isLoading, isFalse);
         verify(
@@ -122,7 +117,6 @@ void main() {
       });
 
       test('deve aplicar filtros ao carregar clientes', () async {
-        // Arrange
         const cnpjFilter = '11.222.333/0001-81';
         const nameFilter = 'ABC';
         const statusFilter = ClientStatus.ativo;
@@ -140,10 +134,8 @@ void main() {
           ),
         ).thenAnswer((_) async => [testClient]);
 
-        // Act
         await controller.loadClients();
 
-        // Assert
         verify(
           () => mockGetClientsUseCase.execute(
             cnpj: cnpjFilter,
@@ -155,7 +147,6 @@ void main() {
       });
 
       test('deve lidar com erro ao carregar clientes', () async {
-        // Arrange
         when(
           () => mockGetClientsUseCase.execute(
             cnpj: any(named: 'cnpj'),
@@ -165,10 +156,8 @@ void main() {
           ),
         ).thenThrow(Exception('Erro ao buscar clientes'));
 
-        // Act
         await controller.loadClients();
 
-        // Assert
         expect(controller.clients, isEmpty);
         expect(controller.isLoading, isFalse);
       });
@@ -176,55 +165,47 @@ void main() {
 
     group('loadClientById', () {
       test('deve carregar cliente por ID com sucesso', () async {
-        // Arrange
         when(
           () => mockGetClientByIdUseCase.execute(any()),
         ).thenAnswer((_) async => testClient);
 
-        // Act
         await controller.loadClientById(1);
 
-        // Assert
         expect(controller.selectedClient, equals(testClient));
         verify(() => mockGetClientByIdUseCase.execute(1)).called(1);
       });
 
       test('deve lidar com erro ao carregar cliente por ID', () async {
-        // Arrange
         when(
           () => mockGetClientByIdUseCase.execute(any()),
         ).thenThrow(Exception('Cliente não encontrado'));
 
-        // Act & Assert - Don't test the exception throwing
-        expect(() => controller.loadClientById(1), returnsNormally);
+        await controller.loadClientById(1);
+
+        expect(controller.selectedClient, isNull);
+        expect(controller.isLoadingForm, isFalse);
       });
     });
 
     group('createClient', () {
       test('deve criar cliente com sucesso', () async {
-        // Arrange
         when(
           () => mockCreateClientUseCase.execute(any()),
         ).thenAnswer((_) async => testClient);
 
-        // Act
         final result = await controller.createClient(testClient);
 
-        // Assert
         expect(result, isTrue);
         verify(() => mockCreateClientUseCase.execute(testClient)).called(1);
       });
 
       test('deve retornar false quando criação falha', () async {
-        // Arrange
         when(
           () => mockCreateClientUseCase.execute(any()),
         ).thenThrow(Exception('Erro ao criar cliente'));
 
-        // Act
         final result = await controller.createClient(testClient);
 
-        // Assert
         expect(result, isFalse);
         verify(() => mockCreateClientUseCase.execute(testClient)).called(1);
       });
@@ -232,29 +213,23 @@ void main() {
 
     group('updateClient', () {
       test('deve atualizar cliente com sucesso', () async {
-        // Arrange
         when(
           () => mockUpdateClientUseCase.execute(any()),
         ).thenAnswer((_) async => testClient);
 
-        // Act
         final result = await controller.updateClient(testClient);
 
-        // Assert
         expect(result, isTrue);
         verify(() => mockUpdateClientUseCase.execute(testClient)).called(1);
       });
 
       test('deve retornar false quando atualização falha', () async {
-        // Arrange
         when(
           () => mockUpdateClientUseCase.execute(any()),
         ).thenThrow(Exception('Erro ao atualizar cliente'));
 
-        // Act
         final result = await controller.updateClient(testClient);
 
-        // Assert
         expect(result, isFalse);
         verify(() => mockUpdateClientUseCase.execute(testClient)).called(1);
       });
@@ -262,48 +237,37 @@ void main() {
 
     group('Filter Management', () {
       test('deve aplicar filtro de CNPJ', () {
-        // Act
         controller.setCnpjFilter('11.222.333/0001-81');
 
-        // Assert
         expect(controller.cnpjFilter, equals('11.222.333/0001-81'));
       });
 
       test('deve aplicar filtro de nome', () {
-        // Act
         controller.setNameFilter('ABC');
 
-        // Assert
         expect(controller.nameFilter, equals('ABC'));
       });
 
       test('deve aplicar filtro de status', () {
-        // Act
         controller.setStatusFilter(ClientStatus.ativo);
 
-        // Assert
         expect(controller.statusFilter, equals(ClientStatus.ativo));
       });
 
       test('deve aplicar filtro de cidade', () {
-        // Act
         controller.setCidadeFilter('São Paulo');
 
-        // Assert
         expect(controller.cidadeFilter, equals('São Paulo'));
       });
 
       test('deve limpar todos os filtros', () {
-        // Arrange
         controller.setCnpjFilter('11.222.333/0001-81');
         controller.setNameFilter('ABC');
         controller.setStatusFilter(ClientStatus.ativo);
         controller.setCidadeFilter('São Paulo');
 
-        // Act
         controller.clearFilters();
 
-        // Assert
         expect(controller.cnpjFilter, isEmpty);
         expect(controller.nameFilter, isEmpty);
         expect(controller.statusFilter, isNull);
@@ -313,7 +277,6 @@ void main() {
 
     group('Loading State', () {
       test('deve definir loading como true durante loadClients', () async {
-        // Arrange
         when(
           () => mockGetClientsUseCase.execute(
             cnpj: any(named: 'cnpj'),
@@ -326,19 +289,16 @@ void main() {
           return testClients;
         });
 
-        // Act
         final future = controller.loadClients();
         expect(controller.isLoading, isTrue);
         await future;
 
-        // Assert
         expect(controller.isLoading, isFalse);
       });
 
       test(
         'deve definir isLoadingForm como true durante createClient',
         () async {
-          // Arrange
           when(() => mockCreateClientUseCase.execute(any())).thenAnswer((
             _,
           ) async {
@@ -346,12 +306,10 @@ void main() {
             return testClient;
           });
 
-          // Act
           final future = controller.createClient(testClient);
           expect(controller.isLoadingForm, isTrue);
           await future;
 
-          // Assert
           expect(controller.isLoadingForm, isFalse);
         },
       );
@@ -359,7 +317,6 @@ void main() {
       test(
         'deve definir isLoadingForm como true durante updateClient',
         () async {
-          // Arrange
           when(() => mockUpdateClientUseCase.execute(any())).thenAnswer((
             _,
           ) async {
@@ -367,12 +324,10 @@ void main() {
             return testClient;
           });
 
-          // Act
           final future = controller.updateClient(testClient);
           expect(controller.isLoadingForm, isTrue);
           await future;
 
-          // Assert
           expect(controller.isLoadingForm, isFalse);
         },
       );
@@ -380,7 +335,6 @@ void main() {
       test(
         'deve definir isLoadingForm como true durante loadClientById',
         () async {
-          // Arrange
           when(() => mockGetClientByIdUseCase.execute(any())).thenAnswer((
             _,
           ) async {
@@ -388,12 +342,10 @@ void main() {
             return testClient;
           });
 
-          // Act
           final future = controller.loadClientById(1);
           expect(controller.isLoadingForm, isTrue);
           await future;
 
-          // Assert
           expect(controller.isLoadingForm, isFalse);
         },
       );
@@ -401,18 +353,14 @@ void main() {
 
     group('Client Management', () {
       test('deve limpar cliente selecionado', () {
-        // Arrange
         controller.loadClientById(1);
 
-        // Act
         controller.clearSelectedClient();
 
-        // Assert
         expect(controller.selectedClient, isNull);
       });
 
       test('deve aplicar filtros e recarregar clientes', () async {
-        // Arrange
         when(
           () => mockGetClientsUseCase.execute(
             name: any(named: 'name'),
@@ -424,13 +372,9 @@ void main() {
 
         controller.setNameFilter('ABC');
 
-        // Act
         controller.applyFilters();
-        await Future.delayed(
-          const Duration(milliseconds: 50),
-        ); // Wait for async operation
+        await Future.delayed(const Duration(milliseconds: 50));
 
-        // Assert
         verify(
           () => mockGetClientsUseCase.execute(
             name: 'ABC',

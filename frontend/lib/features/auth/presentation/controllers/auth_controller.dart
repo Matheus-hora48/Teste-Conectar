@@ -7,6 +7,7 @@ import '../../domain/usecases/get_current_user_usecase.dart';
 import '../../domain/usecases/check_auth_status_usecase.dart';
 import '../../domain/usecases/update_profile_usecase.dart';
 import '../../domain/usecases/update_password_usecase.dart';
+import '../../domain/usecases/google_login_usecase.dart';
 
 class AuthController extends GetxController {
   final LoginUseCase _loginUseCase;
@@ -16,6 +17,7 @@ class AuthController extends GetxController {
   final CheckAuthStatusUseCase _checkAuthStatusUseCase;
   final UpdateProfileUseCase _updateProfileUseCase;
   final UpdatePasswordUseCase _updatePasswordUseCase;
+  final GoogleLoginUseCase _googleLoginUseCase;
 
   
   final Rx<User?> _currentUser = Rx<User?>(null);
@@ -32,13 +34,15 @@ class AuthController extends GetxController {
     required CheckAuthStatusUseCase checkAuthStatusUseCase,
     required UpdateProfileUseCase updateProfileUseCase,
     required UpdatePasswordUseCase updatePasswordUseCase,
+    required GoogleLoginUseCase googleLoginUseCase,
   }) : _loginUseCase = loginUseCase,
        _registerUseCase = registerUseCase,
        _logoutUseCase = logoutUseCase,
        _getCurrentUserUseCase = getCurrentUserUseCase,
        _checkAuthStatusUseCase = checkAuthStatusUseCase,
        _updateProfileUseCase = updateProfileUseCase,
-       _updatePasswordUseCase = updatePasswordUseCase;
+       _updatePasswordUseCase = updatePasswordUseCase,
+       _googleLoginUseCase = googleLoginUseCase;
 
   
   User? get currentUser => _currentUser.value;
@@ -218,6 +222,49 @@ class AuthController extends GetxController {
       Get.snackbar(
         'Sucesso',
         'Senha atualizada com sucesso!',
+        snackPosition: SnackPosition.TOP,
+      );
+
+      return true;
+    } catch (e) {
+      Get.snackbar(
+        'Erro',
+        e.toString().replaceAll('Exception: ', ''),
+        snackPosition: SnackPosition.TOP,
+      );
+      return false;
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
+    try {
+      _isLoading.value = true;
+      await _googleLoginUseCase.initiateGoogleLogin();
+    } catch (e) {
+      Get.snackbar(
+        'Erro',
+        e.toString().replaceAll('Exception: ', ''),
+        snackPosition: SnackPosition.TOP,
+      );
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<bool> processGoogleCallback(String token) async {
+    try {
+      _isLoading.value = true;
+
+      final authResponse = await _googleLoginUseCase.processCallback(token);
+      _currentUser.value = authResponse.user;
+      _isLoggedIn.value = true;
+      _isAdmin.value = authResponse.user.role == UserRole.admin;
+
+      Get.snackbar(
+        'Sucesso',
+        'Login com Google realizado com sucesso!',
         snackPosition: SnackPosition.TOP,
       );
 

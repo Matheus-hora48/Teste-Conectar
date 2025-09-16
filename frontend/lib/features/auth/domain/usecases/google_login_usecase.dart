@@ -26,10 +26,7 @@ class GoogleLoginUseCase {
   Future<void> openGoogleAuth() async {
     const url = 'http://localhost:3010/auth/google';
     if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.externalApplication,
-      );
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
     } else {
       throw Exception('Não foi possível abrir o navegador para autenticação');
     }

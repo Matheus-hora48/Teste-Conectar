@@ -80,13 +80,10 @@ class AuthRepositoryImpl implements AuthRepository {
       // Busca os dados do usuário usando o token
       final userData = await _apiService.get('/users/profile/me');
       final user = User.fromJson(userData.data);
-      
+
       await _apiService.saveUser(jsonEncode(user.toJson()));
 
-      return AuthResponse(
-        accessToken: token,
-        user: user,
-      );
+      return AuthResponse(accessToken: token, user: user);
     } catch (e) {
       throw Exception('Erro ao processar callback do Google: $e');
     }

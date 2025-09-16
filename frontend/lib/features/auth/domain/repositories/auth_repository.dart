@@ -8,6 +8,8 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+  Future<AuthResponse?> loginWithGoogle();
+  Future<AuthResponse> processGoogleCallback(String token);
   Future<void> logout();
   Future<bool> isLoggedIn();
   Future<User?> getCurrentUser();

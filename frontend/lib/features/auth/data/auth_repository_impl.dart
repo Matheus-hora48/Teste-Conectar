@@ -65,6 +65,34 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AuthResponse?> loginWithGoogle() async {
+    // Este método será usado apenas para iniciar o fluxo OAuth
+    // O retorno real será processado via callback
+    return null;
+  }
+
+  @override
+  Future<AuthResponse> processGoogleCallback(String token) async {
+    try {
+      // Salva o token recebido do callback
+      await _apiService.saveToken(token);
+
+      // Busca os dados do usuário usando o token
+      final userData = await _apiService.get('/users/profile/me');
+      final user = User.fromJson(userData.data);
+      
+      await _apiService.saveUser(jsonEncode(user.toJson()));
+
+      return AuthResponse(
+        accessToken: token,
+        user: user,
+      );
+    } catch (e) {
+      throw Exception('Erro ao processar callback do Google: $e');
+    }
+  }
+
+  @override
   Future<void> logout() async {
     await _apiService.clearAuth();
   }

@@ -261,9 +261,25 @@ class _UserFormScreenState extends State<UserFormScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              TextButton(
-                                onPressed: () => Get.back(),
-                                child: const Text('Cancelar'),
+                              SizedBox(
+                                height: 48,
+                                child: OutlinedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: AppColors.primaryColor,
+                                    side: BorderSide(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                      vertical: 12,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  onPressed: () => Get.back(),
+                                  child: const Text('Cancelar'),
+                                ),
                               ),
                               const SizedBox(width: 16),
                               SizedBox(

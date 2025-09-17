@@ -497,6 +497,7 @@ class _ClientFormScreenState extends State<ClientFormScreen>
                 () => ElevatedButton(
                   onPressed: _controller.isLoadingForm ? null : _saveClient,
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

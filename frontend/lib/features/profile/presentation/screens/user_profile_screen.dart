@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import '../../../../core/widgets/main_app_bar_widget.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -30,7 +31,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // Carregar dados iniciais quando o perfil for carregado
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final user = _controller.profileUser;
       if (user != null) {
@@ -236,7 +237,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   _isEditingProfile ? Icons.close : Icons.edit,
                   size: 18,
                 ),
-                label: Text(_isEditingProfile ? 'Cancelar' : 'Editar'),
+                label: Text(
+                  _isEditingProfile ? 'Cancelar' : 'Editar',
+                  style: TextStyle(color: AppColors.primaryColor),
+                ),
               ),
             ],
           ),
@@ -281,6 +285,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         _controller.isUpdatingProfile
                             ? 'Salvando...'
                             : 'Salvar Alterações',
+                        style: TextStyle(color: AppColors.primaryColor),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
@@ -343,7 +348,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   _isChangingPassword ? Icons.close : Icons.lock,
                   size: 18,
                 ),
-                label: Text(_isChangingPassword ? 'Cancelar' : 'Alterar Senha'),
+                label: Text(
+                  _isChangingPassword ? 'Cancelar' : 'Alterar Senha',
+                  style: TextStyle(color: AppColors.primaryColor),
+                ),
               ),
             ],
           ),

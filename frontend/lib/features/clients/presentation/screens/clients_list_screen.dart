@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../widgets/clients_table_widget.dart';
 import '../widgets/dados_basicos_tab_widget.dart';
 import '../../../../core/widgets/main_app_bar_widget.dart';
@@ -79,13 +78,6 @@ class _ClientsListScreenState extends State<ClientsListScreen> {
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed('/client/create');
-        },
-        backgroundColor: const Color(0xFF2ECC71),
-        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

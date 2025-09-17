@@ -24,7 +24,7 @@ class GoogleLoginUseCase {
   }
 
   Future<void> openGoogleAuth() async {
-    const url = 'http://localhost:3010/auth/google';
+    const url = 'https://teste-conectar.onrender.com/auth/google';
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
     } else {

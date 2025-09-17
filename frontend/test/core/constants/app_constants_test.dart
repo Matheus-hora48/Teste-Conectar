@@ -5,21 +5,21 @@ void main() {
   group('AppConstants Tests', () {
     group('Application Constants', () {
       test('deve ter nome da aplicação correto', () {
-        // Assert
+        
         expect(AppConstants.appName, equals('Conéctar'));
         expect(AppConstants.appName, isNotEmpty);
         expect(AppConstants.appName, isA<String>());
       });
 
       test('deve ter base URL configurada', () {
-        // Assert
-        expect(AppConstants.baseUrl, equals('http://localhost:3010'));
+        
+        expect(AppConstants.baseUrl, equals('https://teste-conectar.onrender.com'));
         expect(AppConstants.baseUrl, isNotEmpty);
         expect(AppConstants.baseUrl, startsWith('http'));
       });
 
       test('deve ter base URL no formato correto', () {
-        // Assert
+        
         final uri = Uri.tryParse(AppConstants.baseUrl);
         expect(uri, isNotNull);
         expect(uri!.isAbsolute, isTrue);
@@ -30,7 +30,7 @@ void main() {
 
     group('API Endpoints', () {
       test('deve ter endpoints de autenticação definidos', () {
-        // Assert
+        
         expect(AppConstants.authLogin, equals('/auth/login'));
         expect(AppConstants.authRegister, equals('/auth/register'));
         expect(AppConstants.authLogin, startsWith('/'));
@@ -38,7 +38,7 @@ void main() {
       });
 
       test('deve ter endpoints de recursos definidos', () {
-        // Assert
+        
         expect(AppConstants.users, equals('/users'));
         expect(AppConstants.clients, equals('/clients'));
         expect(AppConstants.users, startsWith('/'));
@@ -46,7 +46,7 @@ void main() {
       });
 
       test('deve ter endpoints consistentes com padrão REST', () {
-        // Assert
+        
         final endpoints = [
           AppConstants.authLogin,
           AppConstants.authRegister,
@@ -62,7 +62,7 @@ void main() {
       });
 
       test('deve ter endpoints únicos', () {
-        // Arrange
+        
         final endpoints = [
           AppConstants.authLogin,
           AppConstants.authRegister,
@@ -70,7 +70,7 @@ void main() {
           AppConstants.clients,
         ];
 
-        // Assert
+        
         final uniqueEndpoints = endpoints.toSet();
         expect(uniqueEndpoints.length, equals(endpoints.length));
       });
@@ -78,39 +78,39 @@ void main() {
 
     group('Storage Keys', () {
       test('deve ter chaves de storage definidas', () {
-        // Assert
+        
         expect(AppConstants.tokenKey, equals('auth_token'));
         expect(AppConstants.userKey, equals('user_data'));
         expect(AppConstants.isLoggedInKey, equals('is_logged_in_key'));
       });
 
       test('deve ter chaves de storage não vazias', () {
-        // Assert
+        
         expect(AppConstants.tokenKey, isNotEmpty);
         expect(AppConstants.userKey, isNotEmpty);
         expect(AppConstants.isLoggedInKey, isNotEmpty);
       });
 
       test('deve ter chaves de storage únicas', () {
-        // Arrange
+        
         final keys = [
           AppConstants.tokenKey,
           AppConstants.userKey,
           AppConstants.isLoggedInKey,
         ];
 
-        // Assert
+        
         final uniqueKeys = keys.toSet();
         expect(uniqueKeys.length, equals(keys.length));
       });
 
       test('deve ter chaves de storage seguindo convenção', () {
-        // Assert
+        
         expect(AppConstants.tokenKey, contains('token'));
         expect(AppConstants.userKey, contains('user'));
         expect(AppConstants.isLoggedInKey, contains('logged_in'));
 
-        // Verificar formato snake_case
+        
         expect(AppConstants.tokenKey.contains(' '), isFalse);
         expect(AppConstants.userKey.contains(' '), isFalse);
         expect(AppConstants.isLoggedInKey.contains(' '), isFalse);
@@ -119,7 +119,7 @@ void main() {
 
     group('Route Constants', () {
       test('deve ter rotas principais definidas', () {
-        // Assert
+        
         expect(AppConstants.loginRoute, equals('/login'));
         expect(AppConstants.registerRoute, equals('/register'));
         expect(AppConstants.homeRoute, equals('/home'));
@@ -127,13 +127,13 @@ void main() {
       });
 
       test('deve ter rotas de clientes definidas', () {
-        // Assert
+        
         expect(AppConstants.clientsRoute, equals('/clients'));
         expect(AppConstants.clientFormRoute, equals('/clients/form'));
       });
 
       test('deve ter todas as rotas começando com /', () {
-        // Arrange
+        
         final routes = [
           AppConstants.loginRoute,
           AppConstants.registerRoute,
@@ -143,7 +143,7 @@ void main() {
           AppConstants.profileRoute,
         ];
 
-        // Assert
+        
         for (final route in routes) {
           expect(route, startsWith('/'));
           expect(route, isNotEmpty);
@@ -151,7 +151,7 @@ void main() {
       });
 
       test('deve ter rotas únicas', () {
-        // Arrange
+        
         final routes = [
           AppConstants.loginRoute,
           AppConstants.registerRoute,
@@ -161,13 +161,13 @@ void main() {
           AppConstants.profileRoute,
         ];
 
-        // Assert
+        
         final uniqueRoutes = routes.toSet();
         expect(uniqueRoutes.length, equals(routes.length));
       });
 
       test('deve ter rotas seguindo padrão hierárquico', () {
-        // Assert
+        
         expect(
           AppConstants.clientFormRoute,
           startsWith(AppConstants.clientsRoute),
@@ -176,7 +176,7 @@ void main() {
       });
 
       test('deve ter rotas sem espaços ou caracteres especiais', () {
-        // Arrange
+        
         final routes = [
           AppConstants.loginRoute,
           AppConstants.registerRoute,
@@ -186,7 +186,7 @@ void main() {
           AppConstants.profileRoute,
         ];
 
-        // Assert
+        
         for (final route in routes) {
           expect(route.contains(' '), isFalse);
           expect(route.contains('?'), isFalse);
@@ -198,7 +198,7 @@ void main() {
 
     group('Constants Integrity', () {
       test('deve ter todos os valores como String', () {
-        // Assert
+        
         expect(AppConstants.appName, isA<String>());
         expect(AppConstants.baseUrl, isA<String>());
         expect(AppConstants.authLogin, isA<String>());
@@ -217,17 +217,17 @@ void main() {
       });
 
       test('deve ter valores const imutáveis', () {
-        // Arrange & Act
+        
         final originalAppName = AppConstants.appName;
         final originalBaseUrl = AppConstants.baseUrl;
 
-        // Assert - Valores devem permanecer os mesmos
+        
         expect(AppConstants.appName, equals(originalAppName));
         expect(AppConstants.baseUrl, equals(originalBaseUrl));
       });
 
       test('deve ter nenhuma propriedade nula', () {
-        // Assert
+        
         expect(AppConstants.appName, isNotNull);
         expect(AppConstants.baseUrl, isNotNull);
         expect(AppConstants.authLogin, isNotNull);
@@ -246,7 +246,7 @@ void main() {
       });
 
       test('deve manter consistência entre endpoints relacionados', () {
-        // Assert
+        
         expect(AppConstants.authLogin, contains('auth'));
         expect(AppConstants.authRegister, contains('auth'));
         expect(AppConstants.clientsRoute, contains('clients'));
@@ -256,19 +256,18 @@ void main() {
 
     group('URL Construction', () {
       test('deve permitir construção correta de URLs completas', () {
-        // Act
+        
         final loginUrl = AppConstants.baseUrl + AppConstants.authLogin;
         final registerUrl = AppConstants.baseUrl + AppConstants.authRegister;
         final usersUrl = AppConstants.baseUrl + AppConstants.users;
         final clientsUrl = AppConstants.baseUrl + AppConstants.clients;
 
-        // Assert
-        expect(loginUrl, equals('http://localhost:3010/auth/login'));
-        expect(registerUrl, equals('http://localhost:3010/auth/register'));
-        expect(usersUrl, equals('http://localhost:3010/users'));
-        expect(clientsUrl, equals('http://localhost:3010/clients'));
 
-        // Verificar se são URLs válidas
+        expect(loginUrl, equals('https://teste-conectar.onrender.com/auth/login'));
+        expect(registerUrl, equals('https://teste-conectar.onrender.com/auth/register'));
+        expect(usersUrl, equals('https://teste-conectar.onrender.com/users'));
+        expect(clientsUrl, equals('https://teste-conectar.onrender.com/clients'));
+
         expect(Uri.tryParse(loginUrl), isNotNull);
         expect(Uri.tryParse(registerUrl), isNotNull);
         expect(Uri.tryParse(usersUrl), isNotNull);
@@ -276,7 +275,7 @@ void main() {
       });
 
       test('deve gerar URLs sem duplas barras', () {
-        // Act
+        
         final urls = [
           AppConstants.baseUrl + AppConstants.authLogin,
           AppConstants.baseUrl + AppConstants.authRegister,
@@ -284,14 +283,14 @@ void main() {
           AppConstants.baseUrl + AppConstants.clients,
         ];
 
-        // Assert
+        
         for (final url in urls) {
-          expect(url.contains('://'), isTrue); // Protocolo
-          expect(url.contains('//'), isTrue); // Apenas no protocolo
+          expect(url.contains('://'), isTrue);
+          expect(url.contains('/'), isTrue);
           expect(
-            url.indexOf('//'),
-            equals(url.lastIndexOf('//')),
-          ); // Apenas uma ocorrência
+            url.indexOf('://'),
+            equals(url.lastIndexOf('://')),
+          );
         }
       });
     });

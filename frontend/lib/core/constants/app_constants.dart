@@ -1,6 +1,6 @@
 class AppConstants {
   static const String appName = 'Conéctar';
-  static const String baseUrl = 'http://localhost:3010';
+  static const String baseUrl = 'https://teste-conectar.onrender.com';
 
   static const String authLogin = '/auth/login';
   static const String authRegister = '/auth/register';

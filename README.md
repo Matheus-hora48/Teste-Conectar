@@ -48,31 +48,6 @@ teste-conectar/
     └── test/               # Testes automatizados
 ```
 
-## Funcionalidades
-
-### Sistema de Autenticação
-
-- [x] Login com email/senha
-- [x] Registro de novos usuários
-- [x] JWT para autenticação
-- [x] Proteção de rotas
-- [x] Diferentes níveis de acesso (admin/user)
-
-### Gerenciamento de Usuários
-
-- [x] CRUD completo de usuários
-- [x] Perfis de usuário (admin/user)
-- [x] Filtros e ordenação
-- [x] Identificação de usuários inativos
-
-### Gerenciamento de Clientes
-
-- [x] CRUD completo de clientes
-- [x] Formulário com múltiplas abas
-- [x] Filtros avançados
-- [x] Validações de formulário
-- [x] Interface responsiva
-
 ## Decisões de Arquitetura
 
 ### Backend
@@ -139,8 +114,8 @@ flutter run
 
 Após iniciar o backend, acesse:
 
-- Swagger UI: http://localhost:3000/api
-- JSON Schema: http://localhost:3000/api-json
+- Swagger UI: https://teste-conectar.onrender.com/api
+- JSON Schema: https://teste-conectar.onrender.com/api-json
 
 ## Testes
 
@@ -164,27 +139,9 @@ flutter test
 
 ### Backend
 
-- Recomendado: Railway, Heroku ou Render
-- Variáveis de ambiente necessárias:
-  - `JWT_SECRET`
-  - `DATABASE_URL` (se usar PostgreSQL em produção)
+- Render
+- Variáveis de ambiente necessárias no .env.example
 
 ### Frontend
 
-- Web: Netlify, Vercel
-- Mobile: Google Play Store, App Store
-
-## Segurança
-
-- Senhas criptografadas com bcrypt
-- Tokens JWT com expiração
-- Validação de entrada em todas as rotas
-- CORS configurado adequadamente
-- Rate limiting implementado
-
-## Performance
-
-- Lazy loading de módulos
-- Cache de dados frequentes
-- Paginação em listagens
-- Debounce em filtros de busca
+- Web: Vercel

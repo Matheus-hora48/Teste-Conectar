@@ -42,11 +42,11 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               return Row(
                 children: [
                   _buildTabButton('Clientes', currentTab == 'clientes', () {
-                    Get.toNamed('/clients');
+                    Get.offNamed('/clients');
                   }),
                   const SizedBox(width: 16),
                   _buildTabButton('Perfil', currentTab == 'perfil', () {
-                    Get.toNamed('/profile');
+                    Get.offNamed('/profile');
                   }),
                 ],
               );
@@ -58,15 +58,15 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               return Row(
                 children: [
                   _buildTabButton('Clientes', currentTab == 'clientes', () {
-                    Get.toNamed('/clients');
+                    Get.offNamed('/clients');
                   }),
                   const SizedBox(width: 16),
                   _buildTabButton('Usuários', currentTab == 'usuarios', () {
-                    Get.toNamed('/users');
+                    Get.offNamed('/users');
                   }),
                   const SizedBox(width: 16),
                   _buildTabButton('Perfil', currentTab == 'perfil', () {
-                    Get.toNamed('/profile');
+                    Get.offNamed('/profile');
                   }),
                 ],
               );
@@ -74,7 +74,7 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               return Row(
                 children: [
                   _buildTabButton('Perfil', currentTab == 'perfil', () {
-                    Get.toNamed('/profile');
+                    Get.offNamed('/profile');
                   }),
                 ],
               );
@@ -92,12 +92,11 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 Get.toNamed('/notifications');
               },
             ),
-            // Badge para mostrar notificações pendentes (apenas para admins)
+
             Obx(() {
               final isAdmin = authController.isAdmin;
               if (!isAdmin) return const SizedBox.shrink();
 
-              // Tentativa de buscar controller de notificações se existir
               try {
                 final notificationController =
                     Get.find<NotificationController>();
@@ -131,7 +130,6 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 );
               } catch (e) {
-                // Controller não está registrado, não mostra o badge
                 return const SizedBox.shrink();
               }
             }),

@@ -59,7 +59,11 @@ class _SplashScreenState extends State<SplashScreen>
     await authController.checkAuthStatus();
 
     if (authController.isLoggedIn) {
-      Get.offAllNamed(AppRoutes.clients);
+      if (authController.isAdmin) {
+        Get.offAllNamed(AppRoutes.clients);
+      } else {
+        Get.offAllNamed(AppRoutes.profile);
+      }
     } else {
       Get.offAllNamed(AppRoutes.login);
     }

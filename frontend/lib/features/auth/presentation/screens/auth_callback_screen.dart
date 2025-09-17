@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_colors.dart';
 import 'package:get/get.dart';
-import 'dart:html' as html;
 import '../controllers/auth_controller.dart';
 
 class AuthCallbackScreen extends StatefulWidget {
@@ -22,40 +21,18 @@ class _AuthCallbackScreenState extends State<AuthCallbackScreen> {
   void initState() {
     super.initState();
 
-    final currentUrl = html.window.location.href;
+    // Verifica se tem token nos parâmetros da rota
+    final routeToken = Get.parameters['token'];
 
-    if (currentUrl.contains('token=')) {
+    if (routeToken != null && routeToken.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _processCallback();
       });
     } else {
+      // Redireciona para login se não há token nos parâmetros
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.offAllNamed('/login');
       });
-    }
-  }
-
-  String? _getTokenFromUrl() {
-    try {
-      final currentUrl = html.window.location.href;
-
-      final cleanUrl = currentUrl.split('#')[0];
-
-      final uri = Uri.parse(cleanUrl);
-      final token = uri.queryParameters['token'];
-
-      if (token == null || token.isEmpty) {
-        final tokenMatch = RegExp(r'token=([^&#+]+)').firstMatch(currentUrl);
-        if (tokenMatch != null) {
-          final extractedToken = tokenMatch.group(1);
-          return extractedToken;
-        }
-      }
-
-      return token;
-    } catch (e, s) {
-      log('Erro ao obter token da URL', error: e, stackTrace: s);
-      return null;
     }
   }
 
@@ -67,11 +44,8 @@ class _AuthCallbackScreenState extends State<AuthCallbackScreen> {
 
       await Future.delayed(const Duration(milliseconds: 500));
 
+      // Obtém token apenas dos parâmetros da rota
       String? token = Get.parameters['token'];
-
-      if (token == null || token.isEmpty) {
-        token = _getTokenFromUrl();
-      }
 
       if (token != null && token.isNotEmpty) {
         setState(() {
@@ -112,6 +86,7 @@ class _AuthCallbackScreenState extends State<AuthCallbackScreen> {
         Get.offAllNamed('/login');
       }
     } catch (e) {
+      log('Erro ao processar callback: $e');
       setState(() {
         _message =
             'Erro ao processar autenticação. Redirecionando para login...';

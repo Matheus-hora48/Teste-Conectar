@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_colors.dart';
 import 'package:frontend/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:frontend/features/auth/presentation/bindings/auth_binding.dart';
+import 'package:frontend/features/notifications/presentation/controllers/notification_controller.dart';
 import 'package:get/get.dart';
 
 class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -10,6 +12,10 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!Get.isRegistered<AuthController>()) {
+      AuthBinding().dependencies();
+    }
+
     final AuthController authController = Get.find<AuthController>();
 
     return AppBar(
@@ -78,9 +84,58 @@ class MainAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(icon: const Icon(Icons.help_outline), onPressed: () {}),
-        IconButton(
-          icon: const Icon(Icons.notifications_outlined),
-          onPressed: () {},
+        Stack(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.notifications_outlined),
+              onPressed: () {
+                Get.toNamed('/notifications');
+              },
+            ),
+            // Badge para mostrar notificações pendentes (apenas para admins)
+            Obx(() {
+              final isAdmin = authController.isAdmin;
+              if (!isAdmin) return const SizedBox.shrink();
+
+              // Tentativa de buscar controller de notificações se existir
+              try {
+                final notificationController =
+                    Get.find<NotificationController>();
+                final hasNotifications =
+                    notificationController.inactiveUsersCount > 0;
+
+                if (!hasNotifications) return const SizedBox.shrink();
+
+                return Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 16,
+                      minHeight: 16,
+                    ),
+                    child: Text(
+                      '${notificationController.inactiveUsersCount}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              } catch (e) {
+                // Controller não está registrado, não mostra o badge
+                return const SizedBox.shrink();
+              }
+            }),
+          ],
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 8),

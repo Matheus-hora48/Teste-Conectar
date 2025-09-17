@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:frontend/core/constants/app_colors.dart';
 import 'package:frontend/core/utils/validators.dart';
 import 'package:frontend/core/widgets/custom_text_field.dart';
+import 'package:frontend/core/widgets/main_app_bar_widget.dart';
 import 'package:frontend/features/clients/domain/models/client.dart';
 import 'package:get/get.dart';
 import '../controllers/clients_controller.dart';
-import '../widgets/client_form_appbar_widget.dart';
 
 class ClientFormScreen extends StatefulWidget {
   final int? clientId;
@@ -174,11 +174,8 @@ class _ClientFormScreenState extends State<ClientFormScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: ClientFormAppBarWidget(
-        title: _isEditMode ? 'Editar Cliente' : 'Novo Cliente',
-        tabController: _tabController,
-        onSave: _saveClient,
-        isLoading: _controller.isLoadingForm,
+      appBar: MainAppBarWidget(
+        currentTab: _isEditMode ? 'Editar Cliente' : 'Novo Cliente',
       ),
       body: Container(
         color: Colors.white,

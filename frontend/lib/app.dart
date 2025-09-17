@@ -7,6 +7,8 @@ import 'package:frontend/features/clients/presentation/screens/clients_list_scre
 import 'package:frontend/features/users/presentation/screens/users_list_screen.dart';
 import 'package:frontend/features/users/presentation/screens/user_form_screen.dart';
 import 'package:frontend/features/users/presentation/bindings/users_binding.dart';
+import 'package:frontend/features/notifications/presentation/screens/notification_screen.dart';
+import 'package:frontend/features/notifications/presentation/bindings/notification_binding.dart';
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:get/get.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
@@ -80,6 +82,11 @@ class MyApp extends StatelessWidget {
           page: () =>
               UserFormScreen(userId: int.tryParse(Get.parameters['id'] ?? '0')),
           binding: UsersBinding(),
+        ),
+        GetPage(
+          name: '/notifications',
+          page: () => const NotificationScreen(),
+          binding: NotificationBinding(),
         ),
       ],
       initialRoute: initialRoute ?? '/',

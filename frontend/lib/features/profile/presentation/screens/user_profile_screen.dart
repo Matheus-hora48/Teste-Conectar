@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import '../../../../core/widgets/main_app_bar_widget.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -235,6 +234,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 },
                 icon: Icon(
                   _isEditingProfile ? Icons.close : Icons.edit,
+                  color: AppColors.primaryColor,
                   size: 18,
                 ),
                 label: Text(
@@ -285,7 +285,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         _controller.isUpdatingProfile
                             ? 'Salvando...'
                             : 'Salvar Alterações',
-                        style: TextStyle(color: AppColors.primaryColor),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
@@ -346,6 +345,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 },
                 icon: Icon(
                   _isChangingPassword ? Icons.close : Icons.lock,
+                  color: AppColors.primaryColor,
                   size: 18,
                 ),
                 label: Text(

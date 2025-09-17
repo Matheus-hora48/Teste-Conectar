@@ -92,19 +92,7 @@ class _SplashScreenState extends State<SplashScreen>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.business,
-                        size: 60,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
+                    Image.asset('assets/logo.png', width: 120, height: 120),
 
                     const SizedBox(height: 32),
 
